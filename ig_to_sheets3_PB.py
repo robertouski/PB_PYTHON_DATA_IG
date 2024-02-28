@@ -38,8 +38,7 @@ if demographics_data:
     for item in demographics_data:
         for value in item['values']:
             demographics_list.append({
-                'name': item['name'],
-                'value': value['value'],
+                'follower_count': value['value'],  # Cambio de 'value' a 'follower_count'
                 'end_time': value['end_time']
             })
     
@@ -52,13 +51,13 @@ if demographics_data:
 
     # Nombre de tu hoja de cálculo y seleccionar la hoja específica
     sheet_name = "HOJA"
-    sheet = client.open(sheet_name).get_worksheet(2)  # Asume que '1' es el índice para sheet2
+    sheet = client.open(sheet_name).get_worksheet(2)  # Asume que '2' es el índice para sheet3
 
     # Preparar datos para enviar a Google Sheets
     datos_para_google_sheets = df_demographics.values.tolist()
     datos_para_google_sheets.insert(0, df_demographics.columns.to_list())
 
     sheet.update('A1', datos_para_google_sheets)
-    print("Follow_counts enviados a Google Sheets con éxito.")
+    print("Datos de follower_count enviados a Google Sheets con éxito.")
 else:
-    print("No se pudieron obtener los datos Follow_counts de la audiencia.")
+    print("No se pudieron obtener los datos de follower_count de la audiencia.")
