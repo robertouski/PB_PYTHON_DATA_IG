@@ -31,7 +31,7 @@ if extra_datos_instagram:
     client = gspread.authorize(creds)
 
     # Seleccionar la hoja específica para los datos adicionales
-    sheet_name = "HOJA"
+    sheet_name = "HOJA_PB"
     sheet = client.open(sheet_name).get_worksheet(1)  # Asume que '1' es el índice para sheet2
 
     # Preparar y enviar datos adicionales a Google Sheets

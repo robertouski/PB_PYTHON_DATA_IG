@@ -38,7 +38,7 @@ if posts_data:
     client = gspread.authorize(creds)
 
     # Seleccionar la hoja específica en Google Sheets
-    sheet_name = "HOJA"
+    sheet_name = "HOJA_PB"
     sheet = client.open(sheet_name).get_worksheet(5)  # Asume que '5' es el índice correcto para la hoja
 
     # Preparar y enviar los datos a Google Sheets

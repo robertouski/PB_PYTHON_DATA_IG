@@ -42,7 +42,7 @@ if datos_instagram:
     client = gspread.authorize(creds)
 
     # Nombre de tu hoja de cálculo y seleccionar la primera hoja
-    sheet = client.open("HOJA").sheet1
+    sheet = client.open("HOJA_PB").sheet1
 
     # Preparar datos para enviar a Google Sheets
     datos_para_google_sheets = df.values.tolist()
