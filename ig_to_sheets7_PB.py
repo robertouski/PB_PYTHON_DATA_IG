@@ -1,12 +1,17 @@
+import os
 import requests
 import pandas as pd
-from datetime import datetime, timedelta
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime, timedelta
+from dotenv import load_dotenv
 
-# Configuración inicial
-ACCESS_TOKEN = 'EAAFKUx7Tl00BOyBGNSXHKWI4BevhTS1y44MguZA6RSYzW99LqKbbg31tAWMCzNbZCQk4pk96rKabYTSr6vc5RxFpRVPyDKS5sLmZCEKxurkPt6NWX8qGpse1WKptKZAngGiigvCUJymzrOtVavbA4Yq0yjiHsspSiAWwZBcZCGFdKaUb99TSmijxLxK4IMrmyyAo9PPgdYsZAGbEpfmQp5fQrYZBIP3sthFctJd0pzC2'
-INSTAGRAM_BUSINESS_ACCOUNT_ID = '17841449053633062'
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
+
+# Obtener ACCESS_TOKEN e INSTAGRAM_BUSINESS_ACCOUNT_ID del entorno
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+INSTAGRAM_BUSINESS_ACCOUNT_ID = os.getenv("INSTAGRAM_BUSINESS_ACCOUNT_ID")
 
 # Calcular fechas para el rango de 28 días antes del día actual
 end_date = datetime.now()

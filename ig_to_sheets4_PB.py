@@ -1,11 +1,17 @@
+import os
 import requests
-from datetime import datetime, timedelta
+import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime
+from dotenv import load_dotenv
 
-# Configuración de la API de Instagram
-ACCESS_TOKEN = 'EAAFKUx7Tl00BOynzu0FWwpUfdIcqAqcawxpQdCnA5t1HXFAwUZCtPrJEdjnDdjryT45or0WqpOjgYeUPCaJZApQyF8ITkAnJ0nt39QQgCSmvg1e3UHMqUgVfc5Q68DFdllfuYZApct8Ws9GpNUILiG5HA8f4yryZCGY6SZAcqruli48YVGyyGaLw9yag6KZAyitd6owKzti2HZBpyNJeAMOhtqMqnkhTfUZD'
-INSTAGRAM_BUSINESS_ACCOUNT_ID = '17841449053633062'
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
+
+# Obtener ACCESS_TOKEN e INSTAGRAM_BUSINESS_ACCOUNT_ID del entorno
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+INSTAGRAM_BUSINESS_ACCOUNT_ID = os.getenv("INSTAGRAM_BUSINESS_ACCOUNT_ID")
 
 # Función para obtener las impresiones en un rango de fechas específico
 def get_impressions(since_date, until_date):

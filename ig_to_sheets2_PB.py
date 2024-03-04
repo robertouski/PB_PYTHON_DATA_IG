@@ -1,12 +1,16 @@
+import os
 import requests
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
+from dotenv import load_dotenv
 
-# Configuración de Instagram API
-ACCESS_TOKEN = 'EAAFKUx7Tl00BO9PyCnZCUm1n249OaTLOG9BTaDY5DHwHcFpNofLlZCRsKX9LYVJDOehqZB0v6vQwAWJZBgRLlRXJcxgMoZBLA7Iim77fpmo0btZB2R3WgQSZBbjAzQ3dNX2okM054BkcxZAsCH3dniVqXFGKqtgJMDZAQsI1E7zF8Uv7wZCE0xmZAuhkbxUtueQLyOg1hSCFVrUd9Wj7VmjzLZAZBK1KaVZBpaABQZD'
-INSTAGRAM_BUSINESS_ACCOUNT_ID = '17841449053633062'
+load_dotenv()
+
+# Obtener ACCESS_TOKEN e INSTAGRAM_BUSINESS_ACCOUNT_ID del entorno
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+INSTAGRAM_BUSINESS_ACCOUNT_ID = os.getenv("INSTAGRAM_BUSINESS_ACCOUNT_ID")
 
 def get_instagram_profile_data():
     url_profile = f"https://graph.facebook.com/v19.0/{INSTAGRAM_BUSINESS_ACCOUNT_ID}?fields=username,name,followers_count,media_count,profile_picture_url,website&access_token={ACCESS_TOKEN}"
@@ -63,14 +67,20 @@ if datos_perfil_instagram:
     sheet_name = "HOJA_PB"
     sheet = client.open(sheet_name).get_worksheet(1)  # Asume que '1' es el índice para la segunda hoja
 
-    # Preparar y enviar datos del perfil a Google Sheets
-    datos_perfil_para_google_sheets = df_datos_perfil.values.tolist()
-    # Añadir encabezados a la primera fila
-    headers = list(df_datos_perfil.columns) 
-    datos_perfil_para_google_sheets.insert(0, headers)
-    # Convertir todos los valores a cadenas
-    datos_perfil_para_google_sheets = [[str(item) for item in row] for row in datos_perfil_para_google_sheets]
-    sheet.update('A1', datos_perfil_para_google_sheets)
-    print("Datos del perfil, incluyendo 'reach', 'profile_views', 'impressions' y 'fecha_activacion', enviados a Google Sheets con éxito.")
+    # Verificar si la fecha actual ya está en la hoja de Google Sheets
+    fechas_registradas = sheet.col_values(1)
+    if fecha_actual in fechas_registradas:
+        # Si la fecha ya está registrada, actualizar los datos en esa fila
+        fila_actualizacion = fechas_registradas.index(fecha_actual) + 1
+        datos_perfil_para_google_sheets = df_datos_perfil.values.tolist()[0]
+        sheet.update(f'A{fila_actualizacion}', datos_perfil_para_google_sheets)
+        print(f"Datos del perfil actualizados para la fecha {fecha_actual}.")
+    else:
+        # Si la fecha no está registrada, agregar una nueva fila con los datos
+        datos_perfil_para_google_sheets = df_datos_perfil.values.tolist()
+        # Convertir todos los valores a cadenas
+        datos_perfil_para_google_sheets = [[str(item) for item in row] for row in datos_perfil_para_google_sheets]
+        sheet.append_rows(datos_perfil_para_google_sheets)
+        print(f"Datos del perfil agregados para la fecha {fecha_actual}.")
 else:
     print("No se pudieron obtener los datos del perfil de Instagram.")

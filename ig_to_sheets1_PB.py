@@ -1,11 +1,15 @@
+import os
 import requests
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from dotenv import load_dotenv
 
-# Configuración de Instagram API
-ACCESS_TOKEN = 'EAAFKUx7Tl00BO8mdLnnOSHEcUlTNNV5xEqB7ODUJ8EYAeZB2iapZANicSHSmr6fZCZBNCZA4BKHfhPny4mcZAqlHM0gZBzPlwxtG7WcuPaYgKRxBxFuuYbpi7L5qejqrDJBD1ZBHtPN3vvDhHivbyG0IuZB7ETNHD4IJVOYbbjMOCWzsM6HcBeKzvZBCnsbdZBThZBJ74ZAwpePqz15CGZAlAFHe8zWrHZA2wosSNwZD'
-INSTAGRAM_BUSINESS_ACCOUNT_ID = '17841449053633062'
+load_dotenv()
+
+# Obtener ACCESS_TOKEN e INSTAGRAM_BUSINESS_ACCOUNT_ID del entorno
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+INSTAGRAM_BUSINESS_ACCOUNT_ID = os.getenv("INSTAGRAM_BUSINESS_ACCOUNT_ID")
 
 def get_instagram_post_insights():
     url = f"https://graph.facebook.com/v19.0/{INSTAGRAM_BUSINESS_ACCOUNT_ID}/media?fields=id,media_id,caption,media_type,media_url,permalink,timestamp,username, like_count,plays,insights.metric(impressions,reach,saved,video_views,likes,follows,comments, shares, plays, profile_activity, profile_visits)&access_token={ACCESS_TOKEN}"

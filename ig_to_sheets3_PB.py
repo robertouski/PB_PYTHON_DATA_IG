@@ -1,7 +1,11 @@
+import os
 import requests
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from datetime import datetime, timedelta
 
@@ -14,9 +18,11 @@ since_date = start_date.strftime('%Y-%m-%d')
 until_date = end_date.strftime('%Y-%m-%d')
 
 # Configuración de Instagram API
-ACCESS_TOKEN = 'EAAFKUx7Tl00BOynzu0FWwpUfdIcqAqcawxpQdCnA5t1HXFAwUZCtPrJEdjnDdjryT45or0WqpOjgYeUPCaJZApQyF8ITkAnJ0nt39QQgCSmvg1e3UHMqUgVfc5Q68DFdllfuYZApct8Ws9GpNUILiG5HA8f4yryZCGY6SZAcqruli48YVGyyGaLw9yag6KZAyitd6owKzti2HZBpyNJeAMOhtqMqnkhTfUZD'
-INSTAGRAM_BUSINESS_ACCOUNT_ID = '17841449053633062'
 
+
+# Obtener ACCESS_TOKEN e INSTAGRAM_BUSINESS_ACCOUNT_ID del entorno
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+INSTAGRAM_BUSINESS_ACCOUNT_ID = os.getenv("INSTAGRAM_BUSINESS_ACCOUNT_ID")
 def get_audience_demographics():
     url = f"https://graph.facebook.com/v19.0/{INSTAGRAM_BUSINESS_ACCOUNT_ID}/insights?metric=follower_count&period=day&since={since_date}&until={until_date}&access_token={ACCESS_TOKEN}"
     try:

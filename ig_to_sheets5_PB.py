@@ -1,11 +1,17 @@
+import os
 import requests
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime
+from dotenv import load_dotenv
 
-# Configuración inicial
-ACCESS_TOKEN = 'EAAFKUx7Tl00BO5ZC80YRQZA52KCP7zExYesavBRCm24MhlKhqLZCymZBrLfq8cCzdnQAhH2wFz0WerGPswF3JjH2WisZCFdYgg5ZCzeFPzC7SVPndhoft1ZAWzgDxB0gT8IrgydPqELw9kfDiXnrrxZA0oiZBmJUNeZCtofMIKiYBXoGkjDopzFdGz1FgXH5xAaOFHgjidZAZB082fN6BxyK7G2SZAtUdEGhDZAB0ZD'
-INSTAGRAM_BUSINESS_ACCOUNT_ID = '17841449053633062'
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
+
+# Obtener ACCESS_TOKEN e INSTAGRAM_BUSINESS_ACCOUNT_ID del entorno
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+INSTAGRAM_BUSINESS_ACCOUNT_ID = os.getenv("INSTAGRAM_BUSINESS_ACCOUNT_ID")
 
 def get_hashtag_id(hashtag, access_token):
     url = f"https://graph.facebook.com/ig_hashtag_search?user_id={INSTAGRAM_BUSINESS_ACCOUNT_ID}&q={hashtag}&access_token={access_token}"
