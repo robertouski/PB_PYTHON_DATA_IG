@@ -4,11 +4,12 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Configuración de Instagram API
-ACCESS_TOKEN = 'EAAFKUx7Tl00BOynzu0FWwpUfdIcqAqcawxpQdCnA5t1HXFAwUZCtPrJEdjnDdjryT45or0WqpOjgYeUPCaJZApQyF8ITkAnJ0nt39QQgCSmvg1e3UHMqUgVfc5Q68DFdllfuYZApct8Ws9GpNUILiG5HA8f4yryZCGY6SZAcqruli48YVGyyGaLw9yag6KZAyitd6owKzti2HZBpyNJeAMOhtqMqnkhTfUZD'
+ACCESS_TOKEN = 'EAAFKUx7Tl00BO8mdLnnOSHEcUlTNNV5xEqB7ODUJ8EYAeZB2iapZANicSHSmr6fZCZBNCZA4BKHfhPny4mcZAqlHM0gZBzPlwxtG7WcuPaYgKRxBxFuuYbpi7L5qejqrDJBD1ZBHtPN3vvDhHivbyG0IuZB7ETNHD4IJVOYbbjMOCWzsM6HcBeKzvZBCnsbdZBThZBJ74ZAwpePqz15CGZAlAFHe8zWrHZA2wosSNwZD'
 INSTAGRAM_BUSINESS_ACCOUNT_ID = '17841449053633062'
 
 def get_instagram_post_insights():
-    url = f"https://graph.facebook.com/v19.0/{INSTAGRAM_BUSINESS_ACCOUNT_ID}/media?fields=id,caption,media_type,media_url,permalink,timestamp,insights.metric(impressions,reach,saved,video_views)&access_token={ACCESS_TOKEN}"
+    url = f"https://graph.facebook.com/v19.0/{INSTAGRAM_BUSINESS_ACCOUNT_ID}/media?fields=id,media_id,caption,media_type,media_url,permalink,timestamp,username, like_count,plays,insights.metric(impressions,reach,saved,video_views,likes,follows,comments, shares, plays, profile_activity, profile_visits)&access_token={ACCESS_TOKEN}"
+
     try:
         response = requests.get(url)
         response.raise_for_status()
@@ -42,7 +43,7 @@ if datos_instagram:
     client = gspread.authorize(creds)
 
     # Nombre de tu hoja de cálculo y seleccionar la primera hoja
-    sheet = client.open("HOJA_PB").sheet1
+    sheet = client.open("HOJA_PB").get_worksheet(0)
 
     # Preparar datos para enviar a Google Sheets
     datos_para_google_sheets = df.values.tolist()
